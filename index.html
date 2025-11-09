@@ -800,13 +800,50 @@
         }
 
         /* Scroll Reveal Animation */
-        .reveal {
+        /* About section animations */
+        .animate-text {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
+            animation: fadeInLetters 1.5s forwards;
+            animation-delay: 0.5s;
         }
 
-        .reveal.active {
+        .animate-stat {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.3s; }
+        .stat-card:nth-child(2) { animation-delay: 0.6s; }
+        .stat-card:nth-child(3) { animation-delay: 0.9s; }
+        .stat-card:nth-child(4) { animation-delay: 1.2s; }
+
+        @keyframes fadeInLetters {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Reset animations when element is in viewport */
+        #about.visible .animate-text,
+        #about.visible .animate-stat {
+            animation: none;
             opacity: 1;
             transform: translateY(0);
         }
@@ -876,24 +913,24 @@
 
     <!-- Stats Section -->
     <section id="about">
-        <div class="section-header reveal">
-            <h2 class="section-title">About Me</h2>
-            <p class="section-subtitle">Passionate about technology and innovation</p>
+        <div class="section-header">
+            <h2 class="section-title animate-text">About Me</h2>
+            <p class="section-subtitle animate-text">Passionate about technology and innovation</p>
         </div>
         <div class="stats-grid">
-            <div class="stat-card reveal">
+            <div class="stat-card animate-stat">
                 <div class="stat-number">2027</div>
                 <div class="stat-label">Expected Graduation</div>
             </div>
-            <div class="stat-card reveal">
+            <div class="stat-card animate-stat">
                 <div class="stat-number">10+</div>
                 <div class="stat-label">Technical Skills</div>
             </div>
-            <div class="stat-card reveal">
+            <div class="stat-card animate-stat">
                 <div class="stat-number">2+</div>
                 <div class="stat-label">Years Experience</div>
             </div>
-            <div class="stat-card reveal">
+            <div class="stat-card animate-stat">
                 <div class="stat-number">3+</div>
                 <div class="stat-label">Major Projects</div>
             </div>
@@ -1119,35 +1156,31 @@
     </footer>
 
     <script>
-        // About section hover effect
+        // About section animations
         const aboutSection = document.getElementById('about');
-        const statCards = document.querySelectorAll('.stat-card');
-        let hasTriggered = false;
+        
+        // Function to restart animations
+        function restartAnimations() {
+            const animatedElements = aboutSection.querySelectorAll('.animate-text, .animate-stat');
+            animatedElements.forEach(element => {
+                element.style.animation = 'none';
+                element.offsetHeight; // Trigger reflow
+                element.style.animation = null;
+            });
+        }
 
-        aboutSection.addEventListener('mouseenter', () => {
-            if (!hasTriggered) {
-                statCards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('show');
-                    }, index * 200); // Add 200ms delay between each card
-                });
-                hasTriggered = true;
-            }
-        });
-
-        // Show cards when scrolling into view as fallback
+        // Intersection Observer for about section
         const aboutObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !hasTriggered) {
-                statCards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('show');
-                    }, index * 200);
-                });
-                hasTriggered = true;
+            if (entries[0].isIntersecting) {
+                aboutSection.classList.add('visible');
+                restartAnimations();
             }
-        }, { threshold: 0.5 });
+        }, { threshold: 0.2 });
 
         aboutObserver.observe(aboutSection);
+
+        // Initial animation trigger
+        setTimeout(restartAnimations, 500);
 
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
