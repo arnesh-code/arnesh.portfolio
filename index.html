@@ -269,11 +269,20 @@
             box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
         }
 
+        .hero-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+
         .hero-avatar i {
             font-size: 10rem;
             color: var(--primary);
             opacity: 0.3;
         }
+
 
         @keyframes morphing {
             0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
@@ -704,23 +713,55 @@
             margin-top: 3rem;
         }
 
+        /* Make social icons perfectly round and responsive */
         .social-btn {
             width: 60px;
             height: 60px;
+            min-width: 60px;
+            min-height: 60px;
+            aspect-ratio: 1 / 1;
             border-radius: 50%;
             background: var(--gradient);
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             text-decoration: none;
-            transition: all 0.3s;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
+        .social-btn i { line-height: 1; display: inline-block; }
+
         .social-btn:hover {
-            transform: translateY(-5px) scale(1.1);
+            transform: translateY(-5px) scale(1.08);
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Responsive adjustments to keep icons square on smaller screens */
+        @media (max-width: 768px) {
+            .social-links { gap: 1rem; }
+            .social-btn {
+                width: 48px;
+                height: 48px;
+                min-width: 48px;
+                min-height: 48px;
+                font-size: 1.05rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .social-links { gap: 0.75rem; }
+            .social-btn {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                min-height: 40px;
+                font-size: 0.95rem;
+            }
         }
 
         /* Footer */
@@ -896,7 +937,8 @@
             </div>
             <div class="hero-image">
                 <div class="hero-avatar">
-                    <i class="fas fa-code"></i>
+                <img id="profilePic" src="assets/profile.jpg" alt="Arnesh Karunagaran" onerror="this.style.display='none'; document.getElementById('avatarIcon').style.display='block'">
+                <i id="avatarIcon" class="fas fa-code" style="display:none;"></i>
                 </div>
                 <div class="floating-tag tag-1">
                     <i class="fas fa-react" style="color: var(--primary);"></i> React.js
@@ -1041,10 +1083,10 @@
                     </div>
                 </div>
                 <div class="cta-group" style="margin-top: 2rem;">
-                    <a href="#" class="btn btn-primary">
+                    <a href="https://drive.google.com/file/d/1xbzVoqxeJRnvsh0FWv5D16EOANfwZ8U8/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                         <i class="fas fa-external-link-alt"></i> Live Demo
                     </a>
-                    <a href="#" class="btn btn-secondary">
+                    <a href="https://github.com/arnesh-code/Gym" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
                         <i class="fab fa-github"></i> View Code
                     </a>
                 </div>
@@ -1133,16 +1175,16 @@
                 </div>
             </div>
             <div class="social-links">
-                <a href="https://linkedin.com/in/arnesh-karunagaran" target="_blank" class="social-btn">
+                <a href="https://www.linkedin.com/in/arnesh-karunagaran-656621333?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" class="social-btn">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-                <a href="#" target="_blank" class="social-btn">
+                <a href="https://github.com/arnesh-code" target="_blank" class="social-btn">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="#" target="_blank" class="social-btn">
+                <a href="https://x.com/Arnesh_01?t=L_5i2sqFBYbgVe6eo5eAww&s=09" target="_blank" class="social-btn">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <a href="#" target="_blank" class="social-btn">
+                <a href="https://www.instagram.com/arnesh_karunagaran?igsh=eW1weWZ2eHR4ZnUx" target="_blank" class="social-btn">
                     <i class="fab fa-instagram"></i>
                 </a>
             </div>
