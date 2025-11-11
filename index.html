@@ -933,6 +933,9 @@
                     <a href="#contact" class="btn btn-secondary">
                         <i class="fas fa-envelope"></i> Let's Talk
                     </a>
+                    <a href="assets/Arnesh_Resume.pdf" id="downloadResumeHero" class="btn btn-secondary" download>
+                        <i class="fas fa-download"></i> Download Resume
+                    </a>
                 </div>
             </div>
             <div class="hero-image">
@@ -1174,6 +1177,11 @@
                     <p style="color: #64748b;">Namakkal, India</p>
                 </div>
             </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="assets/Arnesh_Resume.pdf" id="downloadResumeContact" class="btn btn-primary" download>
+                    <i class="fas fa-download"></i> Download Resume
+                </a>
+            </div>
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/arnesh-karunagaran-656621333?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" class="social-btn">
                     <i class="fab fa-linkedin-in"></i>
@@ -1223,6 +1231,30 @@
 
         // Initial animation trigger
         setTimeout(restartAnimations, 500);
+
+        // Resume availability check - hide download links if file missing
+        (function checkResume() {
+            const resumePath = 'assets/Arnesh_Resume.pdf';
+            const heroLink = document.getElementById('downloadResumeHero');
+            const contactLink = document.getElementById('downloadResumeContact');
+            if (!heroLink && !contactLink) return;
+
+            // Try fetching HEAD to verify file exists. If the request fails (e.g. file://), silently keep links — server will handle.
+            fetch(resumePath, { method: 'HEAD' })
+                .then(res => {
+                    if (!res.ok) {
+                        if (heroLink) heroLink.style.display = 'none';
+                        if (contactLink) contactLink.style.display = 'none';
+                    } else {
+                        // set a friendly filename for download
+                        if (heroLink) heroLink.setAttribute('download', 'Arnesh_Karunagaran_Resume.pdf');
+                        if (contactLink) contactLink.setAttribute('download', 'Arnesh_Karunagaran_Resume.pdf');
+                    }
+                })
+                .catch(() => {
+                    // On fetch error (e.g., opened via file://) we won't hide links because they might still work when served.
+                });
+        })();
 
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
